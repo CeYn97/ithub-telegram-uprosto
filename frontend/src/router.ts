@@ -48,6 +48,6 @@ Promise.all([
     console.log(useCredentialsStore.getState())
     console.log(useLotteryStore.getState())
     console.log(usePuzzleStore.getState())
-    await renderPage("start");
+    await renderPage("categories");
 })
 
