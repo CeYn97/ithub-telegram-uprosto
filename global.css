@@ -1,0 +1,347 @@
+@font-face {
+    font-family: "Dudka Bold";
+    src: url("./fonts/Dudka-Bold.ttf");
+}
+
+@font-face {
+    font-family: "Onest Regular";
+    src: url("./fonts/Onest-Regular.ttf");
+    line-height: 95%;
+}
+
+@font-face {
+    font-family: "Onest SemiBold";
+    src: url("./fonts/Onest-SemiBold.ttf");
+    line-height: 95%;
+}
+
+:root {
+    --color-lavender: #9C8CD9;
+    --color-orange: #FF9448;
+    --color-beige: #F4EDE5;
+    --color-sea: #41B1AC;
+    --color-lemon: #F8FF92;
+    --color-lightblue: #D6EAFF;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--color-beige);
+    font-family: "Onest Regular", sans-serif;
+    margin: 0;
+    text-align: center;
+    /* danger */
+    height: var(--tg-viewport-stable-height);
+}
+
+#app {
+    /* height: var(--tg-viewport-stable-height); */
+    min-height: 100%;
+    padding: 25px 20px 20px;
+}
+
+.logo_heading {
+    width: min(100%, 420px);
+    margin: 0 auto;
+}
+
+.logo_heading__logo {
+    width: 100%;
+}
+
+.logo_heading__sub {
+    text-align: end;
+    font-size: 18px;
+    padding-right: 2px;
+    color: var(--color-lavender);
+    margin-top: -8px;
+    line-height: 100%;
+}
+
+.game-heading {
+    margin-bottom: 14px;
+    margin-top: 20px;
+    text-align: center;
+    color: var(--color-orange);
+    /* font-size: 1rem; */
+}
+
+.game-status {
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+.game_description {
+    margin-bottom: 20px;
+    align-items: start;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.game_description__paragraph {
+    font-size: 14px;
+    text-align: start;
+    font-family: "Onest Regular";
+}
+
+.categories {
+    margin-top: 25px;
+    padding-bottom: 40px;
+}
+
+.category {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.category.disabled {
+    pointer-events: initial;
+}
+
+.spinner {
+    width: 25%;
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.form {
+    position: relative;
+    padding: 24px;
+    background: #fff;
+    border-radius: 8px;
+    margin: 0 auto;
+    width: min(100%, 420px);
+    font-family: "Onest Regular";
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.form__heading {
+    font-family: "Onest SemiBold";
+    margin-bottom: 30px;
+}
+
+.form__comment {
+    padding: 0.5rem;
+    font-size: 1rem;
+    outline: 0;
+    resize: none;
+}
+
+.form__comment::placeholder {
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.form__options {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.option {
+    display: flex;
+    gap: 10px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.lottery-container {
+    position: absolute;
+    top: 35%;
+    left: 0;
+    display: flex;
+    width: 100%;
+    /* justify-content: center; */
+    flex-direction: column;
+    align-items: center;
+    /* height: 100%; */
+    gap: 8vmin;
+}
+
+.lottery-subheading {
+    font-size: 1.1rem;
+    color: black;
+}
+
+.lottery-tile-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 5vmin;
+}
+
+.lottery-input-container {
+    position: relative;
+    height: 28vmin;
+    width: 28vmin;
+}
+
+.lottery-input-container.mini {
+    width: 17vmin;
+    height: 10vmin;
+}
+
+.lottery-input-container:has([disabled]) {
+    filter: saturate(0);
+    pointer-events: none;
+}
+
+.lottery-radio-button {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.lottery-radio-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--color-lavender);
+    border-radius: 5px;
+    padding: 1rem;
+    transition: transform 300ms ease;
+}
+
+.lottery-icon {
+    color: var(--color-lavender);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12vmin;
+    font-weight: 400;
+    pointer-events: none;
+}
+
+.lottery-tile-label {
+    text-align: center;
+    font-size: 3.5vmin;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--color-lavender);
+}
+
+.lottery-radio-button:checked+.lottery-radio-tile {
+    background-color: var(--color-lavender);
+    border: 2px solid var(--color-lavender);
+    color: white;
+    transform: scale(1.1, 1.1);
+}
+
+.lottery-radio-button:checked+.lottery-radio-tile .lottery-icon,
+.lottery-radio-button:checked+.lottery-radio-tile .lottery-tile-label {
+    color: white;
+    background-color: var(--color-lavender);
+}
+
+.lottery-summary {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5vmin;
+}
+
+.lottery-summary::marker {
+    content: "";
+}
+
+.lottery-summary::-webkit-details-marker {
+    display: none;
+}
+
+.category .st0 {
+    fill: #FDF5E5;
+}
+
+.category .puzzle_border {
+    fill: none;
+    stroke: #000000;
+    stroke-width: 0.2835;
+    stroke-miterlimit: 11.3386;
+}
+
+.category .rectangle--blueish {
+    fill: #73B7FF;
+}
+
+.category .rectangle--sea {
+    fill: var(--color-sea);
+}
+
+.category .rectangle--lavender {
+    fill: var(--color-lavender);
+}
+
+.category.disabled .rectangle {
+    fill: var(--color-beige);
+}
+
+.category.disabled:has(.rectangle--sea) .puzzle_border {
+    fill: var(--color-sea);
+    stroke: var(--color-sea);
+}
+
+.category.disabled:has(.rectangle--blueish) .puzzle_border {
+    fill: #73B7FF;
+    stroke: #73B7FF;
+}
+
+.category.disabled:has(.rectangle--lavender) .puzzle_border {
+    fill: var(--color-lavender);
+    stroke: var(--color-lavender);
+}
+
+.category .title {
+    fill: white;
+    font-size: 18px;
+    font-family: "Onest SemiBold", sans-serif;
+}
+
+.category.disabled .title {
+    fill: black;
+}
+
+.category .icon-done {
+    display: none;
+}
+
+.category.disabled .icon-done {
+    display: inline-block;
+}
+
+.icon-done path {
+    fill: #FFFFFF;
+    stroke: #00AA6E;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.hidden {
+    visibility: hidden;
+}
