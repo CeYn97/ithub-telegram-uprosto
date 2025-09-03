@@ -22,8 +22,8 @@ def test_grouped_lottery_records():
     return LotteryRecord.get_all()
 
 
-print(test_add_lottery_record("test-1", "2025-09-06", "15:50:00"))
-print(test_add_lottery_record("test-2", "2025-09-07", "13:50:00"))
+print(test_add_lottery_record("test-1", "2025-09-08", "15:50:00"))
+print(test_add_lottery_record("test-2", "2025-09-09", "13:50:00"))
 print(test_grouped_lottery_records())
 
 print(test_add_company_record("test-1", "category_1_item_1"))

@@ -69,7 +69,7 @@ def seed_companies():
 
 
 def seed_lottery_records():
-    date_options = ("2025-09-06", "2025-09-07")
+    date_options = ("2025-09-08", "2025-09-09")
     time_options = ("13:50:00", "15:50:00", "17:50:00")
 
     try:
