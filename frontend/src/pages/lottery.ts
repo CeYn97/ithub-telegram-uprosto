@@ -4,18 +4,35 @@ import { useLotteryStore } from "../store/lottery";
 import { useCredentialsStore } from "../store/credentials";
 import { requestContact } from "../utils/promises";
 
+function nowTs() {
+  const sp = new URLSearchParams(location.search);
+  const n = sp.get("now");
+  if (n) {
+    const num = Number(n);
+    const t = Number.isFinite(num) ? num : Date.parse(n);
+    if (!Number.isNaN(t)) return t;
+  }
+  return Date.now();
+}
+
+function parseLocal(date: string, time: string) {
+  const [y, m, d] = date.split("-").map(Number);
+  const [hh, mm] = time.split(":").map(Number);
+  return new Date(y, (m || 1) - 1, d || 1, hh || 0, mm || 0, 0, 0).getTime();
+}
+
 function parseDatetimeAttributes(element: HTMLElement): number | undefined {
   if (!element.dataset.date || !element.dataset.time) return;
-  return Date.parse(`${element.dataset.date}T${element.dataset.time}`);
+  return parseLocal(element.dataset.date, element.dataset.time);
 }
 
 function isDatetimePassed(timestamp: number) {
-  return Date.now() > timestamp;
+  return nowTs() > timestamp;
 }
 
 function isDatePassed(date: string) {
-  const endOfDayTs = Date.parse(`${date}T23:59:59`);
-  return Date.now() > endOfDayTs;
+  const ts = parseLocal(date, "23:59");
+  return nowTs() > ts;
 }
 
 async function sendLotteryData(date?: string, time?: string) {
@@ -64,7 +81,7 @@ function showTimeslots(event: MouseEvent | TouchEvent) {
 
   tileGroupElement.classList.remove("hidden");
 
-  for (const timeContainer of timeContainers) {
+  for (const timeContainer of Array.from(timeContainers)) {
     timeContainer.dataset.date = selectedTimeContainer.dataset.date;
     const ts = parseDatetimeAttributes(timeContainer);
     const input = timeContainer.querySelector("input");
@@ -93,9 +110,7 @@ export default function LotteryPage() {
   const storedDate = lotteryState.date;
   const storedTime = lotteryState.time;
   const storedTs =
-    storedDate && storedTime
-      ? Date.parse(`${storedDate}T${storedTime}`)
-      : undefined;
+    storedDate && storedTime ? parseLocal(storedDate, storedTime) : undefined;
   const userSlotPassed = !!storedTs && isDatetimePassed(storedTs);
 
   const registerButton = tg.MainButton.setParams({
@@ -125,7 +140,7 @@ export default function LotteryPage() {
     ".lottery-tile-group--time .lottery-input-container"
   );
 
-  for (const dateContainer of dateContainers) {
+  for (const dateContainer of Array.from(dateContainers)) {
     const date = dateContainer.dataset.date;
     if (date && isDatePassed(date)) {
       dateContainer
@@ -135,7 +150,7 @@ export default function LotteryPage() {
     dateContainer.addEventListener("click", showTimeslots);
   }
 
-  for (const timeContainer of timeContainers) {
+  for (const timeContainer of Array.from(timeContainers)) {
     timeContainer.addEventListener(
       "click",
       (event: MouseEvent | TouchEvent) => {
@@ -153,7 +168,7 @@ export default function LotteryPage() {
           registerButton.hide().disable();
           return;
         }
-        const ts = Date.parse(`${date}T${time}`);
+        const ts = parseLocal(date, time);
         if (isDatetimePassed(ts)) {
           registerButton.hide().disable();
           return;
