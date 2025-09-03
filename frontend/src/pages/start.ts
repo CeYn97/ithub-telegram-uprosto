@@ -29,6 +29,13 @@ function navigateToMap() {
   renderPage("map");
 }
 
+function isLotteryExpired(date: string | null, time: string | null) {
+  if (!date || !time) {
+    return false;
+  }
+  return Date.now() > Date.parse(`${date}T${time}`);
+}
+
 export default async function StartPage() {
   tg.MainButton.setParams({
     text: "Продолжить",
@@ -48,15 +55,20 @@ export default async function StartPage() {
   });
 
   const puzzleHasBeenSent = usePuzzleStore.getState().hasBeenSent;
-  const lotteryHasBeenSent = useLotteryStore.getState().hasBeenSent;
+  const { hasBeenSent: lotteryHasBeenSent, date, time } =
+    useLotteryStore.getState();
+  const lotteryExpired = isLotteryExpired(date, time);
 
   const hasData = usePuzzleStore.getState().completedIds().length;
 
-  if (puzzleHasBeenSent && lotteryHasBeenSent) {
+  if (puzzleHasBeenSent && lotteryHasBeenSent && !lotteryExpired) {
     tg.MainButton.setText("Изменить время розыгрыша")
       .enable()
       .show()
       .onClick(navigateToLottery);
+    tg.SecondaryButton.enable().show().onClick(resetAndNavigateToCategories);
+  } else if (puzzleHasBeenSent && lotteryHasBeenSent && lotteryExpired) {
+    tg.MainButton.hide().disable().offClick(navigateToLottery);
     tg.SecondaryButton.enable().show().onClick(resetAndNavigateToCategories);
   } else if (puzzleHasBeenSent) {
     tg.MainButton.setText("Участвовать в розыгрыше")
