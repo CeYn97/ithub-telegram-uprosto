@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="./global.css" />
     <link rel="shortcut icon" href="./favicon.svg" type="image/svg" />
     <title>Просто учиться</title>
-    <script type="module" crossorigin src="./assets/index-DvDspu1k.js"></script>
+    <script type="module" crossorigin src="./assets/index-CZ0-8JfZ.js"></script>
   </head>
 
   <body>
@@ -52,6 +52,7 @@
           Фестиваля.
         </p>
       </section>
+      <button id="open-map-btn" class="btn btn-map">Открыть карту</button>
     </template>
 
     <template id="categories">
@@ -469,6 +470,19 @@
           </div>
         </section>
       </article>
+    </template>
+
+    <template id="map">
+      <section class="map-page">
+        <iframe
+          class="map-iframe"
+          src="https://prosto.education/info/map/map.html"
+          title="Интерактивная карта"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allow="fullscreen"
+        ></iframe>
+      </section>
     </template>
 
     <main id="app"></main>
